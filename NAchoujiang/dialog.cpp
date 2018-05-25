@@ -3,12 +3,14 @@
 #include "handle.h"
 HANDLE adadadad_;
 DWORD _adadadad;
+
 QSound *startsound = new QSound("../NAchoujiang/start.wav");
-int flag, startmusic = 2;
+QSound *bgm = new QSound("../NAchoujiang/bgm.wav");
+int flag, bgmControl = 1, music = 0;
 
 DWORD WINAPI adadadad(LPVOID Wparam)
 {
-    int startnum = returnobject() -> num -> text().toInt();
+    ll startnum = returnobject() -> num -> text().toInt();
 
     srand(time(0));
 
@@ -38,24 +40,25 @@ Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+    bgm -> play();
+    bgm -> setLoops(-1);
+    startsound -> setLoops(-1);
     ui->setupUi(this);
 }
 
 Dialog::~Dialog()
 {
+    bgm -> stop();
+    startsound -> stop();
     delete ui;
 }
 
 void Dialog::on_start_clicked()
 {
-    int num = returnobject() -> num -> text().toInt();
+    ll startnum = returnobject() -> num -> text().toInt();
 
-    if(num > 0 && num < 100000 && flag == 0)
+    if(startnum > 0 && startnum < 100000 && flag == 0)
     {
-            startmusic = 1;
-
-            sound();
-
             flag = 1;
 
             ui -> start -> setText("STOP");
@@ -67,11 +70,7 @@ void Dialog::on_start_clicked()
     {
         flag = 2;
 
-        startmusic = 0;
-
         ui -> start -> setText("重置显示");
-
-        sound();
     }
 
     else if(flag == 2)
@@ -83,26 +82,60 @@ void Dialog::on_start_clicked()
         ui -> start -> setText("START");
     }
 
-
-   else
-   {
+    else
+    {
         QMessageBox::about(this, tr("错误信息"), tr("抽奖人数必须是大于0，小于100000的正整数，否则开始抽奖"));
-   }
+    }
 }
 
-void Dialog::sound()
+void Dialog::on_music_clicked()
 {
-    if(startmusic == 1)
+    if(bgmControl == 1)
     {
+        ui -> music -> setText("切换为抽奖音乐");
+
+        bgm -> stop();
+
         startsound -> play();
 
-        startmusic = 2;
+        bgmControl = 2;
     }
 
-    else if(startmusic == 0)
+    else if(bgmControl == 2)
     {
+         ui -> music -> setText("切换为颁奖音乐");
+
+         startsound -> stop();
+
+         bgm -> play();
+
+        bgmControl = 1;
+    }
+}
+
+void Dialog::on_radioButton_clicked()
+{
+    if(music == 0)
+    {
+        ui -> music -> hide();
+
+        bgm -> stop();
+
         startsound -> stop();
 
-        startmusic = 2;
+        music = 1;
+    }
+
+    else if(music == 1)
+    {
+        ui -> music -> show();
+
+        bgm -> play();
+
+        ui -> music -> setText("切换为颁奖音乐");
+
+        bgmControl = 1;
+
+        music = 0;
     }
 }

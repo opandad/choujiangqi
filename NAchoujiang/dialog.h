@@ -22,7 +22,9 @@ public:
 private slots:
     void on_start_clicked();
 
-    void sound();
+    void on_music_clicked();
+
+    void on_radioButton_clicked();
 
 private:
 

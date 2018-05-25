@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <random>
 
+typedef long long ll;
+
 DWORD WINAPI adadadad(LPVOID Wparam);
 
 Ui::Dialog *returnobject();
