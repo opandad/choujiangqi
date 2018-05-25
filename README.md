@@ -5,6 +5,8 @@ V1.6
 
 同样的如果抽奖音乐不好听则将文件名改为bgm替换掉在该文件夹内的bgm文件
 
+![Image text]https://github.com/tSupan/choujiangqi/blob/master/%E6%8F%8F%E8%BF%B0%E5%9B%BE/%E7%95%8C%E9%9D%A2.png
+
 V1.5
 
 实现了1到99999范围数字的抽奖
