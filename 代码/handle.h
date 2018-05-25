@@ -3,8 +3,9 @@
 #include "dialog.h"
 #include <QMessageBox>
 #include <random>
+#include <QDebug>
 
-typedef long long ll;
+typedef long ll;
 
 DWORD WINAPI adadadad(LPVOID Wparam);
 

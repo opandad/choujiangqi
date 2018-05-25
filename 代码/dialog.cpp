@@ -6,7 +6,8 @@ DWORD _adadadad;
 
 QSound *startsound = new QSound("../NAchoujiang/start.wav");
 QSound *bgm = new QSound("../NAchoujiang/bgm.wav");
-int flag, bgmControl = 1, music = 0;
+int flag, bgmControl = 1, music = 0, i = 0;
+ll x[20000];
 
 DWORD WINAPI adadadad(LPVOID Wparam)
 {
@@ -14,23 +15,43 @@ DWORD WINAPI adadadad(LPVOID Wparam)
 
     srand(time(0));
 
-    int x;
-
     std::random_device rd;
 
     std::mt19937 gen(rd());
 
+    aaa:
     while(flag == 1)
     {
         std::uniform_int_distribution<> dis(1, startnum);
 
-        x = dis(gen);
+        x[i] = dis(gen);
 
-        QString out = QString::number(x, 10);
+        QString out = QString::number(x[i], 10);
 
-        returnobject() -> result -> display(x);
+        returnobject() -> result -> display(out);
 
         Sleep(20 + returnobject() -> sleep -> text().toInt());
+    }
+
+    for(int j = 0; j < i; j++)
+    {
+        if(x[j] == x[i])
+        {
+            returnobject() -> start -> setText("STOP");
+
+            flag = 1;
+
+            goto aaa;
+        }
+
+        else if((j == (i - 1)) && (x[j] != x[i]))
+        {
+            QString out = QString::number(x[i], 10);
+
+            returnobject() -> result -> display(out);
+
+            break;
+        }
     }
 
     return 0;
@@ -59,18 +80,20 @@ void Dialog::on_start_clicked()
 
     if(startnum > 0 && startnum < 100000 && flag == 0)
     {
-            flag = 1;
+        i += 1;
 
-            ui -> start -> setText("STOP");
+        flag = 1;
 
-            adadadad_ = CreateThread(0, 0, adadadad, 0, 0, &_adadadad);
+        ui -> start -> setText("STOP");
+
+        adadadad_ = CreateThread(0, 0, adadadad, 0, 0, &_adadadad);
     }
 
     else if(flag == 1)
     {
         flag = 2;
 
-        ui -> start -> setText("重置显示");
+        ui -> start -> setText("ZERO");
     }
 
     else if(flag == 2)
